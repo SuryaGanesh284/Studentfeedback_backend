@@ -1,5 +1,6 @@
 package com.student.feedback.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -8,7 +9,8 @@ import java.util.Map;
 @Service
 public class CaptchaService {
 
-    private final String SECRET_KEY = "6Ldzaa0sAAAAABLhmRFfIaH8FA6pnb1NFj4tFvmS";
+    @Value("${RECAPTCHA_SECRET:6Ldzaa0sAAAAABLhmRFfIaH8FA6pnb1NFj4tFvmS}")
+    private String secretKey;
 
     public boolean verifyCaptcha(String token) {
 
@@ -17,7 +19,7 @@ public class CaptchaService {
         RestTemplate restTemplate = new RestTemplate();
 
         Map response = restTemplate.postForObject(
-                url + "?secret=" + SECRET_KEY + "&response=" + token,
+                url + "?secret=" + secretKey + "&response=" + token,
                 null,
                 Map.class
         );
