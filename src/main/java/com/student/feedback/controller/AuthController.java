@@ -13,7 +13,6 @@ import com.student.feedback.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin("*")
 public class AuthController {
 
     @Autowired
@@ -22,6 +21,7 @@ public class AuthController {
     // ================= REGISTER =================
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        System.out.println("REGISTER API HIT");
         String response = authService.register(request);
         return ResponseEntity.ok(response);
     }

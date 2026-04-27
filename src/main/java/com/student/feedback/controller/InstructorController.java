@@ -10,7 +10,6 @@ import com.student.feedback.repository.InstructorRepository;
 
 @RestController
 @RequestMapping("/api/instructor")
-@CrossOrigin("*")
 public class InstructorController {
 
     @Autowired

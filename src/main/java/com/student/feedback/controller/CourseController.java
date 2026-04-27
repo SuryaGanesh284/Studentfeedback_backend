@@ -11,7 +11,6 @@ import com.student.feedback.service.CourseService;
 
 @RestController
 @RequestMapping("/api/course")
-@CrossOrigin("*")
 public class CourseController {
 
     @Autowired
