@@ -71,7 +71,22 @@ public class RailwayDatasourceInitializer implements ApplicationContextInitializ
             return mysqlUrl;
         }
 
-        return firstNonBlank(databaseUrl, datasourceUrl, mysqlUrl);
+        String composedUrl = composeUrlFromParts(environment);
+        if (isReachableExternalUrl(composedUrl)) {
+            return composedUrl;
+        }
+
+        return firstNonBlank(databaseUrl, datasourceUrl, mysqlUrl, composedUrl);
+    }
+
+    private String composeUrlFromParts(ConfigurableEnvironment environment) {
+        String host = firstNonBlank(environment.getProperty("MYSQLHOST"), "shuttle.proxy.rlwy.net");
+        String port = firstNonBlank(environment.getProperty("MYSQLPORT"), "22555");
+        String database = firstNonBlank(environment.getProperty("MYSQLDATABASE"), "railway");
+        if (!hasText(host) || !hasText(port) || !hasText(database)) {
+            return null;
+        }
+        return "jdbc:mysql://" + host + ":" + port + "/" + database;
     }
 
     private String normalizeMysqlUrl(String value) {
